@@ -1,17 +1,12 @@
-import React from "react";
-import { Text, View, Button } from "react-native";
+import React, { useState } from "react";
+import { Text, View, Button, FlatList } from "react-native";
 export default function HomeScreen({ navigation }) {
+  const [item, setItem] = useState("");
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}>
+    <View>
       <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Button
-        title="Change"
-        onPress={() => navigation.navigate("AddTask")}></Button>
+      <Button title="Change" onPress={() => navigation.navigate("AddTask")} />
     </View>
   );
 }
