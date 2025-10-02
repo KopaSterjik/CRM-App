@@ -1,9 +1,5 @@
 import { Text, View } from "react-native";
-import MainStack from "../src/navigation/navigator";
+import MainStack from "../src/navigation/Navigator";
 export default function Index() {
-  return (
-    <View>
-      <MainStack />
-    </View>
-  );
+  return <MainStack />;
 }

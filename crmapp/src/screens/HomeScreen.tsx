@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, View } from "react-native";
-export default function HomeScreen() {
+import { Text, View, Button } from "react-native";
+export default function HomeScreen({ navigation }) {
   return (
     <View
       style={{
@@ -9,6 +9,9 @@ export default function HomeScreen() {
         alignItems: "center",
       }}>
       <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Button
+        title="Change"
+        onPress={() => navigation.navigate("AddTask")}></Button>
     </View>
   );
 }
