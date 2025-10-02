@@ -11,9 +11,13 @@ import {
 import { Type } from "../types/Type";
 import { loadTask, deleteTask, saveTask } from "../utils/Storage";
 import { useFocusEffect } from "expo-router";
+import StatusModal from "../components/Modal";
 export default function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState<Type[]>([]);
   const [sortBy, setSortBy] = useState<"createdAt" | "status">("createdAt");
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Type | null>(null);
 
   const sortTasks = (tasklist: Type[], sortBy: typeof sortBy) => {
     // sorting function
@@ -24,7 +28,7 @@ export default function HomeScreen({ navigation }) {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
     } else if (sortBy === "status") {
-      const statusOrder = ["canceled", "in_progress", "completed"];
+      const statusOrder = ["pending", "in_progress", "completed"];
       sorted.sort(
         (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
       );
@@ -59,53 +63,44 @@ export default function HomeScreen({ navigation }) {
       },
     ]);
   };
-  const handleStatusChange = async (task: Type) => {
-    // change task status
-    // const nextStatus = task.status === "in_progress" ? "completed" : "canceled";
-    const nextStatus =
-      task.status === "canceled"
-        ? "in-progress"
-        : task.status === "in-progress"
-        ? "completed"
-        : "canceled";
-    let updatedTasks = tasks.map((t) =>
-      t.id == task.id ? { ...t, status: nextStatus } : t
-    );
 
-    if (nextStatus === "completed") {
-      updatedTasks = updatedTasks.filter((t) => t.id !== task.id);
-      await deleteTask(task.id);
-    } else {
-      await saveTask(updatedTasks);
-    }
-
-    setTasks(updatedTasks);
+  const fastadd = () => {
+    // fast add task for testing
+    const newTask: Type = {
+      id: Math.random().toString(),
+      title: "Fast Task " + (tasks.length + 1),
+      deadline: new Date().toISOString(),
+      status: "in_progress",
+      createdAt: new Date().toISOString(),
+    };
+    const updatedTasks = [...tasks, newTask];
+    saveTask(updatedTasks);
+    setTasks(sortTasks(updatedTasks, sortBy));
   };
+
   const renderItem = ({ item }: { item: Type }) => (
     <View style={styles.taskContainer}>
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.info}>
-          Deadline: {new Date(item.deadline).toLocaleDateString()} // CHEEEEEEEK
+          Deadline: {new Date(item.deadline).toLocaleDateString()}
         </Text>
         <Text style={styles.info}>Status: {item.status}</Text>
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "blue" }]}
-            onPress={() => handleStatusChange(item)}>
-            <Text>Change Status</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "red" }]}
-            onPress={() => handleDelete(item.id)}>
-            <Text>Delete</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: "green" }]}
-            onPress={() => deleteTask(item.id)}>
-            <Text>Completed</Text>
-          </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "#007AFF" }]}
+          onPress={() => {
+            setSelectedTask(item);
+            setModalVisible(true);
+          }}>
+          <Text style={styles.buttonText}>Change Status</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "red" }]}
+          onPress={() => handleDelete(item.id)}>
+          <Text style={styles.buttonText}>Delete</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -122,6 +117,13 @@ export default function HomeScreen({ navigation }) {
           }}>
           <Text style={styles.sortButtonText}> Sort By {sortBy}</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.sortButton}
+          onPress={() => {
+            fastadd();
+          }}>
+          <Text style={styles.sortButtonText}> Fast create </Text>
+        </TouchableOpacity>
       </View>
       <FlatList data={tasks} renderItem={renderItem} />
       <TouchableOpacity
@@ -129,9 +131,32 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate("AddTask")}>
         <Text style={styles.addButtonText}> + Add Task</Text>
       </TouchableOpacity>
+      <StatusModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSelectStatus={async (status) => {
+          if (!selectedTask) return;
+
+          if (status === "completed") {
+            await deleteTask(selectedTask.id);
+            setTasks(tasks.filter((t) => t.id !== selectedTask.id));
+          } else {
+            const updatedTasks = tasks.map((t) =>
+              t.id === selectedTask.id ? { ...t, status } : t
+            );
+            setTasks(updatedTasks);
+            await saveTask(updatedTasks);
+          }
+
+          setModalVisible(false);
+          setSelectedTask(null);
+        }}
+      />
+      ;
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 10 },
   taskContainer: {
