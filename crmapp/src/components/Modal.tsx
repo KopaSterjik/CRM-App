@@ -29,15 +29,15 @@ const StatusModal: React.FC<StatusModalProps> = ({
           {statuses.map((status) => (
             <Pressable
               key={status}
-              style={styles.button}
+              style={[styles.button, , { backgroundColor: "green" }]}
               onPress={() => onSelectStatus(status)}>
               <Text style={styles.buttonText}>{status}</Text>
             </Pressable>
           ))}
           <Pressable
-            style={[styles.button, { backgroundColor: "#ccc" }]}
+            style={[styles.button, { backgroundColor: "#cd0f0fff" }]}
             onPress={onClose}>
-            <Text style={styles.buttonText}>Cancel</Text>
+            <Text style={[styles.buttonText]}>Cancel</Text>
           </Pressable>
         </View>
       </View>
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 12,
     marginVertical: 6,
-    backgroundColor: "#007AFF",
     borderRadius: 6,
     width: "100%",
     alignItems: "center",

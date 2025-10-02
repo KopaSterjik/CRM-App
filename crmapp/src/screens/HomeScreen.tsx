@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
   const sortTasks = (tasklist: Type[], sortBy: typeof sortBy) => {
     // sorting function
     const sorted = [...tasklist];
-    if (sortBy === "createAt") {
+    if (sortBy === "createdAt") {
       sorted.sort(
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -111,11 +111,11 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.sortButton}
           onPress={() => {
-            const newsort = sortBy === "createdAt" ? "status" : "createdAt";
-            setSortBy(newsort);
-            setTasks(sortTasks(tasks, newsort));
+            const newSort = sortBy === "createdAt" ? "status" : "createdAt";
+            setSortBy(newSort);
+            setTasks(sortTasks(tasks, newSort));
           }}>
-          <Text style={styles.sortButtonText}> Sort By {sortBy}</Text>
+          <Text style={styles.sortButtonText}> Sort</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sortButton}
