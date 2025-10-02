@@ -1,5 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { Text, View, Button, FlatList, Alert } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  FlatList,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { Type } from "../types/Type";
 import { loadTask, deleteTask, saveTask } from "../utils/Storage";
 import { useFocusEffect } from "expo-router";
@@ -73,6 +81,34 @@ export default function HomeScreen({ navigation }) {
 
     setTasks(updatedTasks);
   };
+  const renderItem = (item: Type) => {
+    <View style={styles.taskContainer}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.info}>
+          Deadline{new Date(item.deadline).toLocaleDateString()}// CHEEEEEEEK
+        </Text>
+        <Text style={styles.info}>Status: {item.status}</Text>
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "blue" }]}
+            onPress={() => handleStatusChange(item)}>
+            <Text>Change Status</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "red" }]}
+            onPress={() => handleDelete(item.id)}>
+            <Text>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "green" }]}
+            onPress={() => deleteTask(item.id)}>
+            <Text>Completed</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>;
+  };
 
   return (
     <View>
@@ -81,3 +117,30 @@ export default function HomeScreen({ navigation }) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#fff", padding: 10 },
+  taskContainer: {
+    backgroundColor: "#f9f9f9",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  title: { fontSize: 16, fontWeight: "bold" },
+  info: { fontSize: 14, color: "#555" },
+  buttons: { flexDirection: "column", marginLeft: 10 },
+  button: { padding: 6, borderRadius: 6, marginVertical: 2 },
+  buttonText: { color: "#fff", fontSize: 12 },
+  addButton: {
+    backgroundColor: "#28a745",
+    padding: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  addButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  sortContainer: { marginBottom: 10, alignItems: "flex-end" },
+  sortButton: { padding: 6, backgroundColor: "#007AFF", borderRadius: 6 },
+  sortButtonText: { color: "#fff", fontSize: 14 },
+});
