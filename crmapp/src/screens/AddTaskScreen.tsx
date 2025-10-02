@@ -45,7 +45,7 @@ export default function AddTaskScreen({ navigation }) {
       title,
       description,
       location,
-      status: "pending",
+      status: "in_progress",
       deadline: deadline.toISOString(),
       createdAt: new Date().toISOString(),
     };

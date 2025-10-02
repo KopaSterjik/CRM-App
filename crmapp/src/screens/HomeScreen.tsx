@@ -81,12 +81,12 @@ export default function HomeScreen({ navigation }) {
 
     setTasks(updatedTasks);
   };
-  const renderItem = (item: Type) => {
+  const renderItem = ({ item }: { item: Type }) => (
     <View style={styles.taskContainer}>
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.info}>
-          Deadline{new Date(item.deadline).toLocaleDateString()}// CHEEEEEEEK
+          Deadline: {new Date(item.deadline).toLocaleDateString()} // CHEEEEEEEK
         </Text>
         <Text style={styles.info}>Status: {item.status}</Text>
         <View style={styles.buttons}>
@@ -107,13 +107,28 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-    </View>;
-  };
+    </View>
+  );
 
   return (
-    <View>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-      <Button title="Change" onPress={() => navigation.navigate("AddTask")} />
+    <View style={styles.container}>
+      <View style={styles.sortContainer}>
+        <TouchableOpacity
+          style={styles.sortButton}
+          onPress={() => {
+            const newsort = sortBy === "createdAt" ? "status" : "createdAt";
+            setSortBy(newsort);
+            setTasks(sortTasks(tasks, newsort));
+          }}>
+          <Text style={styles.sortButtonText}> Sort By {sortBy}</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList data={tasks} renderItem={renderItem} />
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate("AddTask")}>
+        <Text style={styles.addButtonText}> + Add Task</Text>
+      </TouchableOpacity>
     </View>
   );
 }
