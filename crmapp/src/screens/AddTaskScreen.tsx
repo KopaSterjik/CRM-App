@@ -12,7 +12,7 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { v4 as uuidv4 } from "uuid";
 import { addTask } from "../utils/Storage";
-import { Task } from "../types/Type";
+import { Type } from "../types/Type";
 
 export default function AddTaskScreen({ navigation }) {
   const [title, setTitle] = useState("");
@@ -40,7 +40,7 @@ export default function AddTaskScreen({ navigation }) {
       return;
     }
 
-    const newTask: Task = {
+    const newTask: Type = {
       id: uuidv4(), // generate unique id
       title,
       description,

@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Task } from "../types/Type";
+import { Type } from "../types/Type";
 const STORAGE_KEY = "@tasks";
 
-export const saveTask = async (task: Task[]): Promise<void> => {
+export const saveTask = async (task: Type[]): Promise<void> => {
   // safe task to async storage
   try {
     const jsonvalue = JSON.stringify(task);
@@ -11,7 +11,7 @@ export const saveTask = async (task: Task[]): Promise<void> => {
     console.error("Error saving task to AsyncStorage", e);
   }
 };
-export const loadTask = async (): Promise<Task[]> => {
+export const loadTask = async (): Promise<Type[]> => {
   // load task from async storage
   try {
     const jsonvalue = await AsyncStorage.getItem(STORAGE_KEY);
@@ -21,7 +21,7 @@ export const loadTask = async (): Promise<Task[]> => {
     return [];
   }
 };
-export const addTask = async (task: Task): Promise<void> => {
+export const addTask = async (task: Type): Promise<void> => {
   // add new task
   const tasks = await loadTask();
   tasks.push(task);
