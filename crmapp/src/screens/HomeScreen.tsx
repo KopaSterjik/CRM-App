@@ -14,7 +14,7 @@ import { useFocusEffect } from "expo-router";
 import StatusModal from "../components/Modal";
 export default function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState<Type[]>([]);
-  const [sortBy, setSortBy] = useState<"createdAt" | "status">("createdAt");
+  const [sortBy, setSortBy] = useState<"date" | "status">("date");
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Type | null>(null);
@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
   const sortTasks = (tasklist: Type[], sortBy: typeof sortBy) => {
     // sorting function
     const sorted = [...tasklist];
-    if (sortBy === "createdAt") {
+    if (sortBy === "date") {
       sorted.sort(
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
@@ -79,7 +79,9 @@ export default function HomeScreen({ navigation }) {
   };
 
   const renderItem = ({ item }: { item: Type }) => (
-    <View style={styles.taskContainer}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("TaskInfo", { task: item })}
+      style={styles.taskContainer}>
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.info}>
@@ -102,7 +104,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -111,11 +113,11 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={styles.sortButton}
           onPress={() => {
-            const newSort = sortBy === "createdAt" ? "status" : "createdAt";
+            const newSort = sortBy === "date" ? "status" : "date";
             setSortBy(newSort);
             setTasks(sortTasks(tasks, newSort));
           }}>
-          <Text style={styles.sortButtonText}> Sort</Text>
+          <Text style={styles.sortButtonText}> Sort by {sortBy}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.sortButton}
