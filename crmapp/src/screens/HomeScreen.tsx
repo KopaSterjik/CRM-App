@@ -127,7 +127,13 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.sortButtonText}> Fast create </Text>
         </TouchableOpacity>
       </View>
-      <FlatList data={tasks} renderItem={renderItem} />
+      <FlatList
+        style={styles.list}
+        data={tasks}
+        renderItem={renderItem}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+      />
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate("AddTask")}>
@@ -166,13 +172,24 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "center",
+    flex: 1,
+    margin: 5,
+    minWidth: "45%",
+    maxWidth: "48%",
   },
   title: { fontSize: 16, fontWeight: "bold" },
   info: { fontSize: 14, color: "#555" },
-  buttons: { flexDirection: "column", marginLeft: 10 },
-  button: { padding: 6, borderRadius: 6, marginVertical: 2 },
+  buttons: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+  button: {
+    padding: 6,
+    borderRadius: 6,
+    marginVertical: 2,
+  },
   buttonText: { color: "#fff", fontSize: 12 },
   addButton: {
     backgroundColor: "#28a745",
@@ -181,6 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+  list: {},
   addButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   sortContainer: { marginBottom: 10, alignItems: "flex-end" },
   sortButton: { padding: 6, backgroundColor: "#007AFF", borderRadius: 6 },
