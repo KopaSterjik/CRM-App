@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import {
   Text,
   View,
-  Button,
   FlatList,
   Alert,
   StyleSheet,
@@ -13,7 +12,6 @@ import { loadTask, deleteTask, saveTask } from "../utils/Storage";
 import { useFocusEffect } from "expo-router";
 import StatusModal from "../components/Modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 
@@ -142,7 +140,7 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity
           style={[
             styles.filterButton,
-            sortBy === "date" && styles.filterButtonActive, // исправлено условие
+            sortBy === "date" && styles.filterButtonActivesort,
           ]}
           onPress={() => {
             const newSort = sortBy === "date" ? "status" : "date";
@@ -151,7 +149,7 @@ export default function HomeScreen({ navigation }) {
           <Text
             style={[
               styles.filterText,
-              sortBy === "date" && styles.filterTextActive, // исправлено
+              sortBy === "date" && styles.filterTextActivesort,
             ]}>
             SORT BY {sortBy.toUpperCase()}
           </Text>
@@ -198,17 +196,22 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 10 },
   filterContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     marginBottom: 10,
+    marginLeft: 7,
+    width: "93%",
   },
   filterButton: {
     padding: 6,
     borderRadius: 6,
     backgroundColor: "#eee",
+    marginLeft: 2,
   },
-  filterButtonActive: {},
+  filterButtonActive: { backgroundColor: "#007AFF" },
+  filterButtonActivesort: {},
   filterText: { color: "#333", fontWeight: "bold" },
-  filterTextActive: {},
+  filterTextActive: { color: "white" },
+  filterTextActivesort: {},
   taskContainer: {
     backgroundColor: "#f9f9f9",
     padding: 12,

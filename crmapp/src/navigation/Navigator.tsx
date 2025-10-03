@@ -23,11 +23,12 @@ export default function Navigator() {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: "#1d68b8ff",
+            backgroundColor: "#fff",
           },
           headerTitleStyle: {
-            fontWeight: "bold", // жирный текст
+            fontWeight: "600",
             fontSize: 18,
+            color: "#000",
           },
         }}
         name="AddTask"
@@ -36,11 +37,12 @@ export default function Navigator() {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: "#26b257ff",
+            backgroundColor: "#fff",
           },
           headerTitleStyle: {
-            fontWeight: "bold", // жирный текст
+            fontWeight: "600",
             fontSize: 18,
+            color: "#000",
           },
         }}
         name="TaskInfo"
