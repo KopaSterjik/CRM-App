@@ -12,6 +12,10 @@ import { Type } from "../types/Type";
 import { loadTask, deleteTask, saveTask } from "../utils/Storage";
 import { useFocusEffect } from "expo-router";
 import StatusModal from "../components/Modal";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+
 export default function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState<Type[]>([]);
   const [sortBy, setSortBy] = useState<"date" | "status">("date");
@@ -70,7 +74,7 @@ export default function HomeScreen({ navigation }) {
       id: Math.random().toString(),
       title: "Fast Task " + (tasks.length + 1),
       deadline: new Date().toISOString(),
-      status: "in_progress",
+      status: "in-progress",
       createdAt: new Date().toISOString(),
     };
     const updatedTasks = [...tasks, newTask];
@@ -96,12 +100,12 @@ export default function HomeScreen({ navigation }) {
             setSelectedTask(item);
             setModalVisible(true);
           }}>
-          <Text style={styles.buttonText}>Change Status</Text>
+          <MaterialIcons name="change-circle" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "red" }]}
+          style={[styles.button, { backgroundColor: "gray" }]}
           onPress={() => handleDelete(item.id)}>
-          <Text style={styles.buttonText}>Delete</Text>
+          <AntDesign name="delete" size={24} color="white" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -128,7 +132,6 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <FlatList
-        style={styles.list}
         data={tasks}
         renderItem={renderItem}
         numColumns={2}
@@ -137,7 +140,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate("AddTask")}>
-        <Text style={styles.addButtonText}> + Add Task</Text>
+        <Ionicons name="add-circle" size={84} color="green" />
       </TouchableOpacity>
       <StatusModal
         visible={modalVisible}
@@ -180,8 +183,8 @@ const styles = StyleSheet.create({
   title: { fontSize: 16, fontWeight: "bold" },
   info: { fontSize: 14, color: "#555" },
   buttons: {
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     marginLeft: 10,
   },
@@ -192,13 +195,12 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: "#fff", fontSize: 12 },
   addButton: {
-    backgroundColor: "#28a745",
     padding: 14,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: "flex-end",
     marginTop: 10,
   },
-  list: {},
+
   addButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   sortContainer: { marginBottom: 10, alignItems: "flex-end" },
   sortButton: { padding: 6, backgroundColor: "#007AFF", borderRadius: 6 },
