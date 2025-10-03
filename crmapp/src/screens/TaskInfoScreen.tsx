@@ -52,7 +52,18 @@ export default function TaskInfoScreen({
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 20 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 20 },
-  infoBox: { marginBottom: 15 },
+  infoBox: {
+    backgroundColor: "#f9f9f9",
+    borderColor: "#ccc",
+    borderWidth: 0.5,
+    padding: 14,
+    borderRadius: 20,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
   label: { fontSize: 16, fontWeight: "bold", marginBottom: 4 },
   text: { fontSize: 16, color: "#444" },
   backButton: {

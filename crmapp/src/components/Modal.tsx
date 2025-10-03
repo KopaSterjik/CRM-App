@@ -1,76 +1,91 @@
 import React from "react";
-import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
+import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-type StatusModalProps = {
-  visible: boolean;
-  onClose: () => void;
-  onSelectStatus: (status: "pending" | "in-progress" | "completed") => void;
-};
+const statuses = ["pending", "in-progress", "completed"];
 
-const StatusModal: React.FC<StatusModalProps> = ({
+export default function StatusModal({
   visible,
   onClose,
   onSelectStatus,
-}) => {
-  const statuses: ("pending" | "in-progress" | "completed")[] = [
-    "pending",
-    "in-progress",
-    "completed",
-  ];
-
+  currentStatus,
+}) {
   return (
-    <Modal
-      transparent={true}
-      visible={visible}
-      animationType="fade"
-      onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.container}>
           {statuses.map((status) => (
-            <Pressable
+            <TouchableOpacity
               key={status}
-              style={[styles.button, , { backgroundColor: "green" }]}
+              style={[
+                styles.button,
+                currentStatus === status
+                  ? styles.activeButton
+                  : styles.inactiveButton,
+              ]}
               onPress={() => onSelectStatus(status)}>
-              <Text style={styles.buttonText}>{status}</Text>
-            </Pressable>
+              <Text
+                style={[
+                  styles.buttonText,
+                  currentStatus === status
+                    ? styles.activeText
+                    : styles.inactiveText,
+                ]}>
+                {status}
+              </Text>
+            </TouchableOpacity>
           ))}
-          <Pressable
-            style={[styles.button, { backgroundColor: "#cd0f0fff" }]}
+          <TouchableOpacity
+            style={[styles.button, styles.cancelButton]}
             onPress={onClose}>
-            <Text style={[styles.buttonText]}>cancel</Text>
-          </Pressable>
+            <Text style={styles.cancelText}>cancel</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
   );
-};
-
-export default StatusModal;
+}
 
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   container: {
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 20,
     width: "80%",
-    alignItems: "center",
   },
   button: {
-    padding: 12,
+    padding: 14,
+    borderRadius: 8,
     marginVertical: 6,
-    borderRadius: 6,
-    width: "100%",
     alignItems: "center",
   },
+  activeButton: {
+    backgroundColor: "#28a745",
+  },
+  inactiveButton: {
+    backgroundColor: "#ccc",
+  },
   buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
     fontSize: 16,
+    fontWeight: "bold",
+  },
+  activeText: {
+    color: "white",
+  },
+  inactiveText: {
+    color: "#333",
+  },
+  cancelButton: {
+    backgroundColor: "red",
+  },
+  cancelText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

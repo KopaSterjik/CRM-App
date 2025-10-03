@@ -168,10 +168,10 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
       <StatusModal
         visible={modalVisible}
+        currentStatus={selectedTask?.status}
         onClose={() => setModalVisible(false)}
         onSelectStatus={async (status) => {
           if (!selectedTask) return;
-
           if (status === "completed") {
             await deleteTask(selectedTask.id);
             setTasks(tasks.filter((t) => t.id !== selectedTask.id));
@@ -182,12 +182,10 @@ export default function HomeScreen({ navigation }) {
             setTasks(updatedTasks);
             await saveTask(updatedTasks);
           }
-
           setModalVisible(false);
           setSelectedTask(null);
         }}
       />
-      ;
     </View>
   );
 }
@@ -203,9 +201,15 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 6,
-    borderRadius: 6,
-    backgroundColor: "#eee",
-    marginLeft: 2,
+    backgroundColor: "#f9f9f9",
+    borderColor: "#ccc",
+    borderWidth: 0.5,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    marginLeft: 3,
   },
   filterButtonActive: { backgroundColor: "#007AFF" },
   filterButtonActivesort: {},
@@ -214,10 +218,15 @@ const styles = StyleSheet.create({
   filterTextActivesort: {},
   taskContainer: {
     backgroundColor: "#f9f9f9",
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginRight: 10,
+    borderColor: "#ccc",
+    borderWidth: 0.5,
+    padding: 14,
+    borderRadius: 20,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
     flex: 1,
     margin: 5,
     minWidth: "45%",

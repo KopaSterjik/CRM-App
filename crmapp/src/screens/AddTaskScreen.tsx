@@ -74,6 +74,7 @@ export default function AddTaskScreen({ navigation }) {
           onChangeText={setDescription}
           returnKeyType="next"
           onSubmitEditing={() => locationRef.current?.focus()}
+          multiline={true}
         />
         <Text style={styles.label}>Location</Text>
         <TextInput
@@ -117,11 +118,12 @@ const styles = StyleSheet.create({
   label: { marginTop: 12, marginBottom: 4, fontWeight: "bold", fontSize: 16 },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+
     borderRadius: 8,
     padding: 10,
     fontSize: 16,
     backgroundColor: "#f9f9f9",
+    borderColor: "#ccc",
   },
   dateButton: {
     backgroundColor: "#007AFF",
