@@ -105,7 +105,7 @@ export default function AddTaskScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save</Text>
+          <Text style={styles.saveButtonText}>Add</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

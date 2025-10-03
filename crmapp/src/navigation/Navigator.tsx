@@ -10,7 +10,7 @@ export default function Navigator() {
       <Stack.Screen
         options={{
           headerStyle: {
-            backgroundColor: "#1d68b8ff",
+            backgroundColor: "#159ce5ff",
           },
           headerTitleStyle: {
             fontWeight: "bold", // жирный текст
@@ -20,8 +20,32 @@ export default function Navigator() {
         name="Home"
         component={Home}
       />
-      <Stack.Screen name="AddTask" component={AddTask} />
-      <Stack.Screen name="TaskInfo" component={TaskInfo} />
+      <Stack.Screen
+        options={{
+          headerStyle: {
+            backgroundColor: "#1d68b8ff",
+          },
+          headerTitleStyle: {
+            fontWeight: "bold", // жирный текст
+            fontSize: 18,
+          },
+        }}
+        name="AddTask"
+        component={AddTask}
+      />
+      <Stack.Screen
+        options={{
+          headerStyle: {
+            backgroundColor: "#26b257ff",
+          },
+          headerTitleStyle: {
+            fontWeight: "bold", // жирный текст
+            fontSize: 18,
+          },
+        }}
+        name="TaskInfo"
+        component={TaskInfo}
+      />
     </Stack.Navigator>
   );
 }

@@ -45,12 +45,6 @@ export default function TaskInfoScreen({
           {new Date(task.createdAt).toLocaleDateString()}
         </Text>
       </View>
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
-      </TouchableOpacity>
     </View>
   );
 }

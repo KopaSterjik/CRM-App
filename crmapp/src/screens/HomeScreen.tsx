@@ -15,10 +15,14 @@ import StatusModal from "../components/Modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 
 export default function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState<Type[]>([]);
   const [sortBy, setSortBy] = useState<"date" | "status">("date");
+  const [filterStatus, setFilterStatus] = useState<
+    "all" | "pending" | "in-progress" | "completed"
+  >("all");
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Type | null>(null);
@@ -32,13 +36,17 @@ export default function HomeScreen({ navigation }) {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
     } else if (sortBy === "status") {
-      const statusOrder = ["pending", "in_progress", "completed"];
+      const statusOrder = ["pending", "in-progress", "completed"];
       sorted.sort(
         (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
       );
     }
     return sorted;
   };
+  const filteredTasks =
+    filterStatus === "all"
+      ? tasks
+      : tasks.filter((task) => task.status === filterStatus);
 
   const fetchTasks = async () => {
     // fetch tasks from storage
@@ -100,10 +108,10 @@ export default function HomeScreen({ navigation }) {
             setSelectedTask(item);
             setModalVisible(true);
           }}>
-          <MaterialIcons name="change-circle" size={24} color="white" />
+          <Feather name="edit-2" size={24} color="white" />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "gray" }]}
+          style={[styles.button, { backgroundColor: "red" }]}
           onPress={() => handleDelete(item.id)}>
           <AntDesign name="delete" size={24} color="white" />
         </TouchableOpacity>
@@ -113,26 +121,44 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.sortContainer}>
+      <View style={styles.filterContainer}>
+        {["all", "pending", "in-progress"].map((status) => (
+          <TouchableOpacity
+            key={status}
+            style={[
+              styles.filterButton,
+              filterStatus === status && styles.filterButtonActive,
+            ]}
+            onPress={() => setFilterStatus(status as typeof filterStatus)}>
+            <Text
+              style={[
+                styles.filterText,
+                filterStatus === status && styles.filterTextActive,
+              ]}>
+              {status.toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        ))}
         <TouchableOpacity
-          style={styles.sortButton}
+          style={[
+            styles.filterButton,
+            sortBy === "date" && styles.filterButtonActive, // исправлено условие
+          ]}
           onPress={() => {
             const newSort = sortBy === "date" ? "status" : "date";
             setSortBy(newSort);
-            setTasks(sortTasks(tasks, newSort));
           }}>
-          <Text style={styles.sortButtonText}> Sort by {sortBy}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.sortButton}
-          onPress={() => {
-            fastadd();
-          }}>
-          <Text style={styles.sortButtonText}> Fast create </Text>
+          <Text
+            style={[
+              styles.filterText,
+              sortBy === "date" && styles.filterTextActive, // исправлено
+            ]}>
+            SORT BY {sortBy.toUpperCase()}
+          </Text>
         </TouchableOpacity>
       </View>
       <FlatList
-        data={tasks}
+        data={filteredTasks}
         renderItem={renderItem}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -140,7 +166,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate("AddTask")}>
-        <Ionicons name="add-circle" size={84} color="green" />
+        <Ionicons name="add-circle" size={84} color="#28a745" />
       </TouchableOpacity>
       <StatusModal
         visible={modalVisible}
@@ -170,11 +196,25 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 10 },
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 10,
+  },
+  filterButton: {
+    padding: 6,
+    borderRadius: 6,
+    backgroundColor: "#eee",
+  },
+  filterButtonActive: {},
+  filterText: { color: "#333", fontWeight: "bold" },
+  filterTextActive: {},
   taskContainer: {
     backgroundColor: "#f9f9f9",
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
+    marginRight: 10,
     flex: 1,
     margin: 5,
     minWidth: "45%",
@@ -186,7 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginLeft: 10,
+    marginTop: 5,
   },
   button: {
     padding: 6,

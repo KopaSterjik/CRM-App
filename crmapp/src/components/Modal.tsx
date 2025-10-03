@@ -37,7 +37,7 @@ const StatusModal: React.FC<StatusModalProps> = ({
           <Pressable
             style={[styles.button, { backgroundColor: "#cd0f0fff" }]}
             onPress={onClose}>
-            <Text style={[styles.buttonText]}>Cancel</Text>
+            <Text style={[styles.buttonText]}>cancel</Text>
           </Pressable>
         </View>
       </View>
