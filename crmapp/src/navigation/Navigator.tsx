@@ -13,7 +13,7 @@ export default function Navigator() {
             backgroundColor: "#159ce5ff",
           },
           headerTitleStyle: {
-            fontWeight: "bold", // жирный текст
+            fontWeight: "bold",
             fontSize: 18,
           },
         }}

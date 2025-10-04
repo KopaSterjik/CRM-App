@@ -57,7 +57,7 @@ export default function AddTaskScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.label}>Title</Text>
+        <Text style={styles.label}>Title: </Text>
         <TextInput
           style={styles.input}
           placeholder="Write task title"
@@ -66,7 +66,7 @@ export default function AddTaskScreen({ navigation }) {
           returnKeyType="next"
           onSubmitEditing={() => descriptionRef.current?.focus()}
         />
-        <Text style={styles.label}>Description</Text>
+        <Text style={styles.label}>Description: </Text>
         <TextInput
           style={styles.input}
           placeholder="Write description"
@@ -76,7 +76,7 @@ export default function AddTaskScreen({ navigation }) {
           onSubmitEditing={() => locationRef.current?.focus()}
           multiline={true}
         />
-        <Text style={styles.label}>Location</Text>
+        <Text style={styles.label}>Location: </Text>
         <TextInput
           style={styles.input}
           placeholder="Write location"
@@ -84,7 +84,7 @@ export default function AddTaskScreen({ navigation }) {
           onChangeText={setLocation}
           returnKeyType="next"
         />
-        <Text style={styles.label}>Deadline</Text>
+        <Text style={styles.label}>Deadline: </Text>
         {showPicker && (
           <DateTimePicker // Date picker component
             value={deadline}
@@ -115,7 +115,12 @@ export default function AddTaskScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-  label: { marginTop: 12, marginBottom: 4, fontWeight: "bold", fontSize: 16 },
+  label: {
+    marginTop: 12,
+    marginBottom: 4,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
   input: {
     borderWidth: 1,
 

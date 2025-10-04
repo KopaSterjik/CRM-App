@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
-const statuses = ["pending", "in-progress", "completed"];
+const statuses = ["canceled", "in-progress", "completed"];
 
 export default function StatusModal({
   visible,

@@ -4,6 +4,6 @@ export interface Type {
   description?: string;
   deadline: string; // ISO format
   location?: string;
-  status: "pending" | "in-progress" | "completed";
+  status: "canceled" | "in-progress" | "completed";
   createdAt: string; // ISO format
 }

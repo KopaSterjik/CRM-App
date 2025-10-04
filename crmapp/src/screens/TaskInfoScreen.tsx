@@ -15,7 +15,7 @@ export default function TaskInfoScreen({
   const { task } = route.params;
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{task.title} </Text>
+      <Text style={styles.title}>{task.title}: </Text>
 
       <View style={styles.infoBox}>
         <Text style={styles.label}>Description: </Text>

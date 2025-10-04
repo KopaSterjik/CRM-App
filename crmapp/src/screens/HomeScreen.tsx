@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState<Type[]>([]);
   const [sortBy, setSortBy] = useState<"date" | "status">("date");
   const [filterStatus, setFilterStatus] = useState<
-    "all" | "pending" | "in-progress" | "completed"
+    "all" | "canceled" | "in-progress" | "completed"
   >("all");
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -34,7 +34,7 @@ export default function HomeScreen({ navigation }) {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
     } else if (sortBy === "status") {
-      const statusOrder = ["pending", "in-progress", "completed"];
+      const statusOrder = ["canceled", "in-progress", "completed"];
       sorted.sort(
         (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
       );
@@ -120,7 +120,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.filterContainer}>
-        {["all", "pending", "in-progress"].map((status) => (
+        {["all", "canceled", "in-progress"].map((status) => (
           <TouchableOpacity
             key={status}
             style={[
