@@ -2,8 +2,8 @@ export interface Type {
   id: string;
   title: string;
   description?: string;
-  deadline: string; // ISO format
+  deadline: string;
   location?: string;
   status: "canceled" | "in-progress" | "completed";
-  createdAt: string; // ISO format
+  createdAt: string;
 }
