@@ -74,21 +74,9 @@ export default function HomeScreen({ navigation }) {
     ]);
   };
 
-  const fastadd = () => {
-    // fast add task for testing
-    const newTask: Type = {
-      id: Math.random().toString(),
-      title: "Fast Task " + (tasks.length + 1),
-      deadline: new Date().toISOString(),
-      status: "in-progress",
-      createdAt: new Date().toISOString(),
-    };
-    const updatedTasks = [...tasks, newTask];
-    saveTask(updatedTasks);
-    setTasks(sortTasks(updatedTasks, sortBy));
-  };
-
-  const renderItem = ({ item }: { item: Type }) => (
+  const renderItem = (
+    { item }: { item: Type } // FlatlistItem
+  ) => (
     <TouchableOpacity
       onPress={() => navigation.navigate("TaskInfo", { task: item })}
       style={styles.taskContainer}>
@@ -120,6 +108,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.filterContainer}>
+        // Header filter buttons
         {["all", "canceled", "in-progress"].map((status) => (
           <TouchableOpacity
             key={status}
@@ -155,17 +144,20 @@ export default function HomeScreen({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+
       <FlatList
         data={filteredTasks}
         renderItem={renderItem}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}
       />
+
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate("AddTask")}>
         <Ionicons name="add-circle" size={84} color="#28a745" />
       </TouchableOpacity>
+
       <StatusModal
         visible={modalVisible}
         currentStatus={selectedTask?.status}

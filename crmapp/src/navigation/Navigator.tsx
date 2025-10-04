@@ -14,7 +14,7 @@ export default function Navigator() {
           },
           headerTitleStyle: {
             fontWeight: "bold",
-            fontSize: 18,
+            fontSize: 20,
           },
         }}
         name="Home"
